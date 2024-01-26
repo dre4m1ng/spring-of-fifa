@@ -81,9 +81,8 @@ def getMatchData(match_detail):
     # zip() 함수 이용해서 dictionary 형태로 만들어서 json으로 저장
     # 한 매치에 2명의 유저가 플레이하기 때문에 밑의 과정을 2번 반복
     for i in range(2):
-        # match detail table의 고유 아이디 생성, API로 가져온 match detail 정보에서 'matchInfo' key를 제외한 리스트 생성
-        match_detail_keys = ['matchUid']
-        match_detail_keys.append(list(match_detail.keys())[:-1])
+        # API로 가져온 match detail 정보에서 'matchInfo' key를 제외한 리스트 생성
+        match_detail_keys = list(match_detail.keys())[:-1]
         
         # match detail에서 'matchInfo'에 해당하는 value 가져오기
         match_info = match_detail.get('matchInfo')[i]
@@ -124,7 +123,7 @@ def getMatchData(match_detail):
             match_detail_info_ls.append(match_info.get('defence').get(defence_key))
         
         # key list 합치기
-        sum_match_detail_keys = match_detail_keys + match_info_keys[:1] + matchDetail_keys + shoot_keys + pass_keys + defence_keys
+        sum_match_detail_keys = ['matchUid'] + match_detail_keys + match_info_keys[:1] + matchDetail_keys + shoot_keys + pass_keys + defence_keys
         
         # key list와 value list를 dictionary 형태로 합쳐줌
         user_match_detail.append(dict(zip(sum_match_detail_keys, match_detail_info_ls)))
@@ -144,8 +143,7 @@ def getMatchData(match_detail):
         # player 정보를 담을 빈 list 만들기
         player_info_ls = []
         for player_get_info in player_get_infos:
-            player_get_info_keys = ['matchUid']
-            player_get_info_keys.append(list(player_get_info.keys()))
+            player_get_info_keys = list(player_get_info.keys())
 
             # matchId와 ouid 값을 미리 넣은 리스트 만들어서 primary key로 사용할수 있게함
             player_info  = [match_id + user_ouid, match_id, user_ouid]
