@@ -287,7 +287,7 @@ class MatchDetail:
             tackle=input_data['tackle'],
             yellowCards=input_data['yellowCards'],
             redCards=input_data['redCards'],
-            spRating=input_data['spRating']
+            spRating=input_data['spRating']\
         )
 
         # 데이터베이스에 추가

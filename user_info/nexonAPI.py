@@ -73,6 +73,8 @@ def getMatchData(match_detail):
     '''
     # match detail 빈 리스트 만들기
     user_match_detail = []
+    user_shoot = []
+    user_player = []
 
     # match 고유 id 가져오기
     match_id = match_detail.get("matchId")
@@ -135,6 +137,8 @@ def getMatchData(match_detail):
         for shoot_detail in shoot_details:
             shoot_detail['matchUid'] = match_id + user_ouid
             shoot_detail['shootUid'] = match_id + user_ouid + str(shoot_detail.get('goalTime'))
+        
+        user_shoot.append(shoot_details)
 
         # 'player' 값 가져오기
         player_get_infos = match_info.get('player')
@@ -164,5 +168,7 @@ def getMatchData(match_detail):
 
             # player_get_info_keys와 player_info를 dictionary로 합쳐주고 player_info_ls에 각 선수 정보를 append
             player_info_ls.append(dict(zip(player_get_info_keys, player_info)))
+        
+        user_player.append(player_info_ls)
             
-    return user_match_detail, shoot_details, player_info_ls
+    return user_match_detail, user_shoot, user_player
