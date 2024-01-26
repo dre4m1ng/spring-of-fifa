@@ -54,7 +54,8 @@ def nexon_api(urlString, headers):
                 print(cur_time, '파라미터 누락 또는 유효하지 않음')
                 return data
 
-def getMatchData(api_key, matchid, match_path, shoot_path, player_path):
+def getMatchData(match_detail):
+    '''
     # nexon api로 ouid 가져오기
     ua = UserAgent()
 
@@ -67,7 +68,9 @@ def getMatchData(api_key, matchid, match_path, shoot_path, player_path):
     
     # NEXON API로 match detail 가져오기
     match_detail = nexon_api(urlString=match_detail_url, headers=headers)
-
+    
+    getMatchData(match_detail)
+    '''
     # match detail 빈 리스트 만들기
     user_match_detail = []
 
@@ -78,16 +81,21 @@ def getMatchData(api_key, matchid, match_path, shoot_path, player_path):
     # zip() 함수 이용해서 dictionary 형태로 만들어서 json으로 저장
     # 한 매치에 2명의 유저가 플레이하기 때문에 밑의 과정을 2번 반복
     for i in range(2):
-        # API로 가져온 match detail 정보에서 'matchInfo' key를 제외한 리스트 생성
-        match_detail_keys = list(match_detail.keys())[:-1]
-        
-        # 'matchInfo' key를 제외한 나머지 key의 value를 조회해서 빈 list로 append
-        match_detail_info_ls = []
-        for match_detail_key in match_detail_keys:
-            match_detail_info_ls.append(match_detail.get(match_detail_key))
+        # match detail table의 고유 아이디 생성, API로 가져온 match detail 정보에서 'matchInfo' key를 제외한 리스트 생성
+        match_detail_keys = ['matchUid']
+        match_detail_keys.append(list(match_detail.keys())[:-1])
         
         # match detail에서 'matchInfo'에 해당하는 value 가져오기
         match_info = match_detail.get('matchInfo')[i]
+        
+        # user ouid 가져오기
+        user_ouid = match_info.get('ouid')
+        
+        # 'matchUid'의 값을 match_id + user_ouid로 지정
+        # 'matchInfo' key를 제외한 나머지 key의 value를 조회해서 match_detail_info_ls로 append
+        match_detail_info_ls = [match_id + user_ouid]
+        for match_detail_key in match_detail_keys:
+            match_detail_info_ls.append(match_detail.get(match_detail_key))
         
         # 가져온 value에서의 key값들 가져오고 user ouid값 가져와서 match_detail_info_ls에 append
         match_info_keys = list(match_info.keys())
@@ -120,34 +128,27 @@ def getMatchData(api_key, matchid, match_path, shoot_path, player_path):
         
         # key list와 value list를 dictionary 형태로 합쳐줌
         user_match_detail.append(dict(zip(sum_match_detail_keys, match_detail_info_ls)))
-
-        # user ouid 가져오기
-        user_ouid = match_info.get('ouid')
         
         # 'shootDetail' value 가져오기
         shoot_details = match_info.get('shootDetail')
 
         # 'shootDetail'에 'matchId', 'ouid'저장
         for shoot_detail in shoot_details:
+            shoot_detail['matchUid'] = match_id + user_ouid
             shoot_detail['matchId'] = match_id
             shoot_detail['ouid'] = user_ouid
 
-        # 'shootDetail' 저장
-        shoot_json_file_path = f'{shoot_path}/{match_id}_{user_ouid}_shootDetail.json'
-        with open(shoot_json_file_path, 'w') as jsonfile:
-            json.dump(shoot_details, jsonfile)
-        
         # 'player' 값 가져오기
         player_get_infos = match_info.get('player')
         
         # player 정보를 담을 빈 list 만들기
         player_info_ls = []
         for player_get_info in player_get_infos:
-            
-            player_get_info_keys = list(player_get_info.keys())
+            player_get_info_keys = ['matchUid']
+            player_get_info_keys.append(list(player_get_info.keys()))
 
             # matchId와 ouid 값을 미리 넣은 리스트 만들어서 primary key로 사용할수 있게함
-            player_info  = [match_id, user_ouid]
+            player_info  = [match_id + user_ouid, match_id, user_ouid]
             
             # 각 선수에서 'status' 제외한 값을 player_info에 append
             for player_get_info_key in player_get_info_keys[:-1]:
@@ -166,13 +167,5 @@ def getMatchData(api_key, matchid, match_path, shoot_path, player_path):
 
             # player_get_info_keys와 player_info를 dictionary로 합쳐주고 player_info_ls에 각 선수 정보를 append
             player_info_ls.append(dict(zip(player_get_info_keys, player_info)))
-
-        # 선수 정보 저장
-        player_json_file_path = f'{player_path}/{match_id}_{user_ouid}_playerDetail.json'
-        with open(player_json_file_path, 'w') as jsonfile:
-            json.dump(player_info_ls, jsonfile)
-
-    # 'matchDetail' 저장
-    match_json_file_path = f'{match_path}/{match_id}_matchDetail.json'
-    with open(match_json_file_path, 'w') as jsonfile:
-        json.dump(user_match_detail, jsonfile)
+            
+    return user_match_detail, shoot_details, player_info_ls
