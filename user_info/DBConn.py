@@ -8,9 +8,9 @@ import json
 from datetime import datetime
 
 def db_conn(id, password, db_ip, db):
-    db_path = f'{id}:{password}@{db_ip}:3306/{db}'
+    db_path = f'mysql://{id}:{password}@{db_ip}:3306/{db}'
 
-    engine = create_engine(f'mysql://{db_path}')
+    engine = create_engine(db_path, pool_pre_ping=True)
     
     try:
         # 연결 시도
