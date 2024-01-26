@@ -41,7 +41,7 @@ def top10000(top10000_path, engine):
     print('Data loading completed..')
 
 class MatchDetail:
-    def matchData(engine, input_data):
+    def matchData(engine, table, input_data):
         # 세션 생성
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -51,7 +51,7 @@ class MatchDetail:
         
         # MatchData class 정의
         class MatchData(Base):
-            __tablename__ = 'matchDetail'
+            __tablename__ = table
             
             matchUid = Column(String, primary_key=True)
             matchId = Column(String)
@@ -168,7 +168,7 @@ class MatchDetail:
         session.add(match_row)
         session.commit()
     
-    def shoot(engine, input_data):
+    def shoot(engine, table, input_data):
         # 세션 생성
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -177,7 +177,7 @@ class MatchDetail:
         Base = declarative_base()
 
         class ShootData(Base):
-            __tablename__ = 'shoot'
+            __tablename__ = table
             
             goalTime = Column(Integer)
             x = Column(DECIMAL)
@@ -221,7 +221,7 @@ class MatchDetail:
         session.add(shoot_row)
         session.commit()
         
-    def player(engine, input_data):
+    def player(engine, table, input_data):
         # 세션 생성
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -230,7 +230,7 @@ class MatchDetail:
         Base = declarative_base()
 
         class playerData(Base):
-            __tablename__ = 'player'
+            __tablename__ = table
             
             matchUid = Column(String)
             playerUid = Column(String, primary_key=True)
