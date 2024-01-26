@@ -134,8 +134,7 @@ def getMatchData(match_detail):
         # 'shootDetail'에 'matchId', 'ouid'저장
         for shoot_detail in shoot_details:
             shoot_detail['matchUid'] = match_id + user_ouid
-            shoot_detail['matchId'] = match_id
-            shoot_detail['ouid'] = user_ouid
+            shoot_detail['shootUid'] = match_id + user_ouid + str(shoot_detail.get('goalTime'))
 
         # 'player' 값 가져오기
         player_get_infos = match_info.get('player')
@@ -146,7 +145,7 @@ def getMatchData(match_detail):
             player_get_info_keys = list(player_get_info.keys())
 
             # matchId와 ouid 값을 미리 넣은 리스트 만들어서 primary key로 사용할수 있게함
-            player_info  = [match_id + user_ouid, match_id, user_ouid]
+            player_info  = [match_id + user_ouid, match_id + user_ouid + str(player_get_info.get('spId'))]
             
             # 각 선수에서 'status' 제외한 값을 player_info에 append
             for player_get_info_key in player_get_info_keys[:-1]:
@@ -161,7 +160,7 @@ def getMatchData(match_detail):
                 player_info.append(player_status.get(player_status_key))
 
             # 추출한 key 값들 합쳐주기
-            player_get_info_keys = ['matchId', 'ouid'] + player_get_info_keys[:-1] + player_status_keys
+            player_get_info_keys = ['matchUid', 'playerUid'] + player_get_info_keys[:-1] + player_status_keys
 
             # player_get_info_keys와 player_info를 dictionary로 합쳐주고 player_info_ls에 각 선수 정보를 append
             player_info_ls.append(dict(zip(player_get_info_keys, player_info)))
