@@ -4,9 +4,21 @@ from datetime import datetime
 from fake_useragent import UserAgent
 import json
 
-def nexon_api(urlString, headers):
+def nexon_api(url: str, api_key: str):
+    '''
+    ### url 예시
+    url = '/fconline/v1/id?nickname=nickname"
+    '''
     # 오류 메세지
     error_message = ['OPENAPI00003', 'OPENAPI00005', 'OPENAPI00006', 'OPENAPI00009']
+    
+    # nexon api url & headers
+    urlString = f'https://open.api.nexon.com{url}'
+    ua = UserAgent()
+    headers = {
+        "User-Agent" : ua.random,
+        "x-nxopen-api-key": api_key
+        }
     
     # 조건에 맞을 때 까지 반복
     while True:
