@@ -1,23 +1,19 @@
-import logo from "./logo.svg";
 import "./App.css";
+import indexVideoSrc from "./youtube.mp4";
+import indexFCOnlineLogo from "./fc_online_logo.png";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <video
+        className="App-video"
+        src={indexVideoSrc}
+        autoPlay
+        loop
+        muted
+      ></video>
+      <div className="App-vertical-line"></div>
+      <img className="App-logo" src={indexFCOnlineLogo} alt="logo" />
     </div>
   );
 }
