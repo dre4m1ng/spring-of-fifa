@@ -1,26 +1,26 @@
 .App {
-  width: 100vw;  /* 사용자 브라우저 화면 전체 */
+  width: 100vw; /* 사용자 브라우저 화면 전체 */
   height: 100vh;
   background-color: black;
 }
 
 .App-video {
-  position: absolute;  /* 세로 스크롤 방지 */
+  position: absolute; /* 세로 스크롤 방지 */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   filter: blur(25px);
-  zoom: 1.2;  /* 액자 같이 검은색 테두리가 생기는 것 방지 */
+  zoom: 1.2; /* 액자 같이 검은색 테두리가 생기는 것 방지 */
 }
 
 .App-logo {
   position: absolute;
-  left: 25%;
+  right: 53%; /* 중간 세로바와 간격 맞추기 */
   top: 50%;
   transform: translateY(-50%);
-  width: 23%;  /* 로고 크기 */
-  filter: invert(100);  /* 색상 반전 */
+  width: 23%; /* 로고 크기 */
+  filter: invert(100); /* 색상 반전 */
 }
 
 .App-vertical-line {
@@ -31,4 +31,19 @@
   width: 1.5px;
   height: 80%;
   background-color: rgba(116, 125, 151, 0.315);
+}
+
+.App-input {
+  position: absolute;
+  width: 28%;
+  left: 53%;
+  top: 40%;
+}
+
+.App-carousel-wrapper {
+  position: absolute;
+  left: 53%;
+  top: 45%;
+  width: 250px;
+  height: 10px;
 }
