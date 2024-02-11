@@ -4,10 +4,14 @@ import indexFCOnlineLogo from "./fc_online_logo.png";
 import { Input } from "@/components/ui/input";
 import * as React from "react";
 import CarouselOrientation from "CarouselOrientation";
+import MenubarDemo from "MenubarDemo";
 
 function App() {
   return (
     <div className="App">
+      <div className="App-top-nav-bar">
+        <MenubarDemo></MenubarDemo>
+      </div>
       <video
         className="App-video"
         src={indexVideoSrc}
