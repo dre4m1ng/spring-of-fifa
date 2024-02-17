@@ -18,7 +18,7 @@ export default function MenubarDemo() {
   return (
     <Menubar>
       <MenubarMenu>
-        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarTrigger>Menu 01</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
             New Tab <MenubarShortcut>⌘T</MenubarShortcut>
@@ -43,7 +43,7 @@ export default function MenubarDemo() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarTrigger>Menu 02</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
             Undo <MenubarShortcut>⌘Z</MenubarShortcut>
@@ -69,7 +69,7 @@ export default function MenubarDemo() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>View</MenubarTrigger>
+        <MenubarTrigger>Menu 03</MenubarTrigger>
         <MenubarContent>
           <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
           <MenubarCheckboxItem checked>
@@ -89,7 +89,7 @@ export default function MenubarDemo() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Profiles</MenubarTrigger>
+        <MenubarTrigger>Menu 04</MenubarTrigger>
         <MenubarContent>
           <MenubarRadioGroup value="benoit">
             <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
