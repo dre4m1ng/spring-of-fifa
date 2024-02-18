@@ -1,7 +1,12 @@
 {
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.formatOnSave": true
+  },
   "[javascript][javascriptreact][jsonc][json][css][html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
+  "pylint.importStrategy": "useBundled",
   "eslint.enable": true
 }

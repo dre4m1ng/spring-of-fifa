@@ -1,0 +1,8 @@
+[tool.autopep8]
+aggressive = 2
+recursive = true
+diff = true
+exit-code = true
+
+[tool.pylint]
+recursive = true
