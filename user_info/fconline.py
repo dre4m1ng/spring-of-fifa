@@ -1,11 +1,3 @@
-# pylint: disable=E0401
-# pylint: disable=C0103
-# pylint: disable=C0301
-# pylint: disable=R0914
-# pylint: disable=R0915
-# pylint: disable=W0611
-# pylint: disable=C0114
-
 from datetime import datetime
 import time
 from selenium import webdriver

@@ -1,8 +1,3 @@
-# pylint: disable=C0114
-# pylint: disable=E0401
-# pylint: disable=C0301
-# pylint: disable=C0103
-
 import time
 from datetime import datetime
 import requests
