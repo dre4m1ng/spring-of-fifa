@@ -21,7 +21,7 @@ jobs:
       - name: pep8, pylint testing
         run: |
           autopep8 ./user_info/*.py
-          pylint ./user_info/*.py
+          pylint ./user_info/.
       - name: Generate Environment Variables File
         run: |
           echo "DISCORD_WEBHOOK=$DISCORD_WEBHOOK" >> .env
@@ -34,7 +34,7 @@ jobs:
       - name: Send pylint output to Discord on failure
         if: failure()
         run: |
-          pylint ./user_info/*.py > pylint_output.txt || true
+          pylint ./user_info/. > pylint_output.txt || true
           pylint_output=$(cat pylint_output.txt)
           json='{"content":"'"$pylint_output"'"}'
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Build failed!"}' ${{ secrets.DISCORD_WEBHOOK }}
