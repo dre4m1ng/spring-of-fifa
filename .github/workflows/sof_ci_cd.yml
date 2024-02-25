@@ -34,7 +34,7 @@ jobs:
       - name: Send pylint output to Discord on failure
         if: failure()
         run: |
-          pylint test.py > pylint_output.txt || true
+          pylint . > pylint_output.txt || true
           pylint_output=$(cat pylint_output.txt)
           json='{"content":"'"$pylint_output"'"}'
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Build failed!"}' ${{ secrets.DISCORD_WEBHOOK }}
