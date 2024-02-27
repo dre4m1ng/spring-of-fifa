@@ -3,10 +3,12 @@ from datetime import datetime
 import requests
 from fake_useragent import UserAgent
 
+
 class Fconline:
     """
     nexon API를 사용해 FConline 유저 데이터를 가져옵니다
     """
+
     def __init__(self, api_key):
         self.api_key = api_key
 
@@ -16,19 +18,21 @@ class Fconline:
             url (str): '/fconline/v1/id?nickname=nickname' (https://openapi.nexon.com/guide/request-api/)
         '''
         # 오류 메세지
-        error_message = ['OPENAPI00003', 'OPENAPI00005', 'OPENAPI00006', 'OPENAPI00009']
+        error_message = ['OPENAPI00003', 'OPENAPI00005',
+                         'OPENAPI00006', 'OPENAPI00009']
         # nexon api url & headers
         url_string = f'https://open.api.nexon.com{url}'
         ua = UserAgent()
         headers = {
-            "User-Agent" : ua.random,
+            "User-Agent": ua.random,
             "x-nxopen-api-key": self.api_key
-            }
+        }
         # 조건에 맞을 때 까지 반복
         while True:
             # API 요청
             try:
-                response = requests.get(url_string, headers=headers, timeout=10)
+                response = requests.get(
+                    url_string, headers=headers, timeout=10)
             except requests.Timeout:
                 print("Timeout error")
             error_code = None
@@ -91,11 +95,11 @@ class Fconline:
         '''
         Args:
             matchtype (int): 기본 변수 50
-            
+
             offset (int): 기본 변수 0
-            
+
             limit (int): 기본 변수 100
-        
+
         Returns:
             list: match_id가 정해진 limit 숫자에 맞게 출력 (https://openapi.nexon.com/game/fconline/?id=15)
         '''
@@ -112,4 +116,3 @@ class Fconline:
         """
         url = f'/fconline/v1/match-detail?matchid={match_id}'
         return self.call(url)
-    

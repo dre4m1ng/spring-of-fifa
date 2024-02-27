@@ -8,10 +8,11 @@ import pandas as pd
 from tqdm import tqdm
 from nexon_api import Fconline
 
+
 def ranker_cwl(save_path, api_key):
     """
     FConline 홈페이지에서 공식경기 랭킹을 기져오는 모듈
-    
+
     Args:
         save_path (str): 저장경로
         api_key (str): nexon API key
@@ -42,7 +43,8 @@ def ranker_cwl(save_path, api_key):
     browser.get(url)
 
     # 랭커 유저 리스트
-    user_rank_num, user_lvs, user_names, user_prices, user_rank_scores, user_ranks = [], [], [], [], [], []
+    user_rank_num, user_lvs, user_names, user_prices, user_rank_scores, user_ranks = [
+    ], [], [], [], [], []
 
     # 반복 횟수 설정
     current_iter = 0
@@ -53,13 +55,17 @@ def ranker_cwl(save_path, api_key):
             # 페이지 로딩시간
             time.sleep(1)
             # 요소를 찾을때 까지 대기
-            user_info_wait = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="inner"]/div[1]/div/div[2]')))
-            WebDriverWait(user_info_wait, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'tr')))
-            WebDriverWait(user_info_wait, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span.td.rank_coach span.ico_rank img')))
+            user_info_wait = WebDriverWait(browser, 10).until(
+                EC.presence_of_element_located((By.XPATH, '//*[@id="inner"]/div[1]/div/div[2]')))
+            WebDriverWait(user_info_wait, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, 'tr')))
+            WebDriverWait(user_info_wait, 10).until(EC.presence_of_element_located(
+                (By.CSS_SELECTOR, 'span.td.rank_coach span.ico_rank img')))
 
             # 요소 찾기
             user_info = user_info_wait.find_elements(By.CLASS_NAME, 'tr')
-            user_ranks_url = user_info_wait.find_elements(By.CSS_SELECTOR, 'span.td.rank_coach span.ico_rank img')
+            user_ranks_url = user_info_wait.find_elements(
+                By.CSS_SELECTOR, 'span.td.rank_coach span.ico_rank img')
             for user in user_info:
                 info = user.text.split('\n')
                 user_rank_num.append(info[0])
@@ -71,13 +77,15 @@ def ranker_cwl(save_path, api_key):
                 src = user_rank.get_attribute('src').split('/')[-1][4:-4]
                 user_ranks.append(src)
             if i == 11:
-                next_list_wait = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="inner"]/div[2]/div/a[3]')))
+                next_list_wait = WebDriverWait(browser, 10).until(
+                    EC.presence_of_element_located((By.XPATH, '//*[@id="inner"]/div[2]/div/a[3]')))
                 browser.execute_script("arguments[0].click();", next_list_wait)
                 break
 
             # 요소를 찾을 때까지 대기
             next_page_xpath = f'//*[@id="inner"]/div[2]/div/ul/li[{i}]/a'
-            next_page_wait = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, next_page_xpath)))
+            next_page_wait = WebDriverWait(browser, 10).until(
+                EC.presence_of_element_located((By.XPATH, next_page_xpath)))
 
             # JavaScript를 사용하여 스크롤합니다.
             browser.execute_script("arguments[0].click();", next_page_wait)
@@ -89,7 +97,8 @@ def ranker_cwl(save_path, api_key):
     pbar = tqdm(range(len(user_names)))
 
     # rank mapping
-    kor_rank = ['슈퍼챔피언스', '슈퍼챌린저', '챌린저1부', '챌린저2부', '챌린저3부', '월드클래스1부', '월드클래스2부', '월드클래스3부', '프로1부']
+    kor_rank = ['슈퍼챔피언스', '슈퍼챌린저', '챌린저1부', '챌린저2부',
+                '챌린저3부', '월드클래스1부', '월드클래스2부', '월드클래스3부', '프로1부']
     kor_rank_dict = dict(zip(sorted(list(set(user_ranks))), kor_rank))
     fc = Fconline(api_key)
     ouid_ls = []
@@ -98,13 +107,13 @@ def ranker_cwl(save_path, api_key):
 
     # df으로 저장
     df = pd.DataFrame({
-        'rankNo' : user_rank_num,
-        'LV' : user_lvs,
-        'nickName' : user_names,
-        'rankScore' : user_rank_scores,
-        'tier' : user_ranks,
-        'price' : user_prices,
-        'ouid' : ouid_ls
+        'rankNo': user_rank_num,
+        'LV': user_lvs,
+        'nickName': user_names,
+        'rankScore': user_rank_scores,
+        'tier': user_ranks,
+        'price': user_prices,
+        'ouid': ouid_ls
     })
 
     df['korRankTier'] = df['tier'].map(kor_rank_dict)
