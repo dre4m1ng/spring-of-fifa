@@ -55,12 +55,16 @@ def ranker_cwl(save_path, api_key):
             # 페이지 로딩시간
             time.sleep(1)
             # 요소를 찾을때 까지 대기
-            user_info_wait = WebDriverWait(browser, 10).until(
-                EC.presence_of_element_located((By.XPATH, '//*[@id="inner"]/div[1]/div/div[2]')))
+            user_info_wait = WebDriverWait(
+                browser, 10).until(
+                EC.presence_of_element_located(
+                    (By.XPATH, '//*[@id="inner"]/div[1]/div/div[2]')))
             WebDriverWait(user_info_wait, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, 'tr')))
-            WebDriverWait(user_info_wait, 10).until(EC.presence_of_element_located(
-                (By.CSS_SELECTOR, 'span.td.rank_coach span.ico_rank img')))
+            WebDriverWait(
+                user_info_wait, 10).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, 'span.td.rank_coach span.ico_rank img')))
 
             # 요소 찾기
             user_info = user_info_wait.find_elements(By.CLASS_NAME, 'tr')
@@ -77,8 +81,10 @@ def ranker_cwl(save_path, api_key):
                 src = user_rank.get_attribute('src').split('/')[-1][4:-4]
                 user_ranks.append(src)
             if i == 11:
-                next_list_wait = WebDriverWait(browser, 10).until(
-                    EC.presence_of_element_located((By.XPATH, '//*[@id="inner"]/div[2]/div/a[3]')))
+                next_list_wait = WebDriverWait(
+                    browser, 10).until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//*[@id="inner"]/div[2]/div/a[3]')))
                 browser.execute_script("arguments[0].click();", next_list_wait)
                 break
 
