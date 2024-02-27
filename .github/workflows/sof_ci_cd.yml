@@ -47,3 +47,12 @@ jobs:
       - name: Send message when All testing success
         run: |
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Passed All test!"}' $DISCORD_WEBHOOK
+
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: ${{ secrets.SSH_SCRIPT_PATH }}
