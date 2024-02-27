@@ -23,7 +23,6 @@ jobs:
           pip install -r ./user_info/requirements.txt
 
       - name: Autopep8 testing
-        id: autopep8_test
         run: |
           autopep8 ./user_info/*.py
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Passed autopep8 testing!"}' $DISCORD_WEBHOOK
@@ -39,7 +38,7 @@ jobs:
         continue-on-error: true
   
       - name: Pylint testing
-        id: pylint_test
+        if: always()
         run: |
           pylint ./user_info/.
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Passed pylint testing!"}' $DISCORD_WEBHOOK
