@@ -6,8 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from tqdm import tqdm
-from nexonAPI import nexon_api
-from fake_useragent import UserAgent
+from nexon_api import Fconline
 
 def ranker_cwl(save_path, api_key):
     """
@@ -88,14 +87,14 @@ def ranker_cwl(save_path, api_key):
         current_iter += 1
 
     pbar = tqdm(range(len(user_names)))
+
     # rank mapping
     kor_rank = ['슈퍼챔피언스', '슈퍼챌린저', '챌린저1부', '챌린저2부', '챌린저3부', '월드클래스1부', '월드클래스2부', '월드클래스3부', '프로1부']
     kor_rank_dict = dict(zip(sorted(list(set(user_ranks))), kor_rank))
+    fc = Fconline(api_key)
     ouid_ls = []
     for i in pbar:
-        urlString = "/fconline/v1/id?nickname=" + user_names[i]
-        ouid = nexon_api(url=urlString, api_key=api_key)
-        ouid_ls.append(ouid.get('ouid'))
+        ouid_ls.append(fc.ouid(user_names[i]))
 
     # df으로 저장
     df = pd.DataFrame({
