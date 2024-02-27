@@ -26,14 +26,10 @@ jobs:
         id: autopep8_test
         run: |
           autopep8 ./user_info/*.py
-
-      - name: Send message when autopep8 testing succeeds
-        if: steps.autopep8_test.outcome == success()
-        run: |
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Passed autopep8 testing!"}' $DISCORD_WEBHOOK
-
+  
       - name: Send message when autopep8 testing fails
-        if: steps.autopep8_test.outcome == failure()
+        if: failure()
         run: |
           autopep8 ./user_info/*.py > autopep8_output.txt || true
           autopep8_output=$(cat autopep8_output.txt)
@@ -46,14 +42,10 @@ jobs:
         id: pylint_test
         run: |
           pylint ./user_info/.
-
-      - name: Send message when pylint testing succeeds
-        if: steps.pylint_test.outcome == success()
-        run: |
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Passed pylint testing!"}' $DISCORD_WEBHOOK
 
       - name: Send message when pylint testing fails
-        if: steps.pylint_test.outcome == failure()
+        if: failure()
         run: |
           pylint ./user_info/. > pylint_output.txt || true
           pylint_output=$(cat pylint_output.txt)
