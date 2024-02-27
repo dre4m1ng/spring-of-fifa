@@ -82,7 +82,7 @@ class Fconline:
     def ouid(self, nickname) -> str:
         """
         Args:
-            nickname (str): 
+            nickname (str):
 
         Returns:
             str: _description_
