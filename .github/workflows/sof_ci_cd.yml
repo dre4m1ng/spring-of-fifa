@@ -34,13 +34,13 @@ jobs:
 
       - name: Send message when autopep8 testing fails
         if: steps.autopep8_test.outcome == 'failure'
+        continue-on-error: true
         run: |
           autopep8 ./user_info/*.py > autopep8_output.txt || true
           autopep8_output=$(cat autopep8_output.txt)
           autopep8_json='{"content":"'"$autopep8_output"'"}'
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Autopep8 testing failed! Please review and fix the identified issues."}' $DISCORD_WEBHOOK
           echo $autopep8_json | curl -X POST -H "Content-Type: application/json" -d @- $DISCORD_WEBHOOK
-        continue-on-error: true
   
       - name: Pylint testing
         id: pylint_test
