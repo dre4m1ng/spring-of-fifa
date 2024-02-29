@@ -26,7 +26,7 @@ jobs:
       - name: Send message when autopep8 testing fails
         if: failure()
         run: |
-          curl -X POST -H "Content-Type: application/json" -d '{"content":"Autopep8 testing failed! Please review and fix the identified issues."}' $DISCORD_WEBHOOK
+          curl -X POST -H "Content-Type: application/json" -d '{"content":"Autopep8 testing failed! Please review and fix the identified issues."}' ${{ secrets.DISCORD_WEBHOOK }}
         continue-on-error: true
   
       - name: Pylint testing
@@ -40,13 +40,13 @@ jobs:
           pylint ./user_info/. > pylint_output.txt || true
           pylint_output=$(cat pylint_output.txt)
           json='{"content":"'"$pylint_output"'"}'
-          curl -X POST -H "Content-Type: application/json" -d '{"content":"Pylint testing failed! Please review and fix the identified issues."}' $DISCORD_WEBHOOK
+          curl -X POST -H "Content-Type: application/json" -d '{"content":"Pylint testing failed! Please review and fix the identified issues."}' ${{ secrets.DISCORD_WEBHOOK }}
           echo $json | curl -X POST -H "Content-Type: application/json" -d @- $DISCORD_WEBHOOK
         continue-on-error: true
 
       - name: Send message when All testing success
         run: |
-          curl -X POST -H "Content-Type: application/json" -d '{"content":"Passed All test!"}' $DISCORD_WEBHOOK
+          curl -X POST -H "Content-Type: application/json" -d '{"content":"Passed All test!"}' ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.3
