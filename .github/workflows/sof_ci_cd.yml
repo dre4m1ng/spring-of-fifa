@@ -17,11 +17,11 @@ jobs:
       - name: Install requirements package
         run: |
           pip install --upgrade pip
-          pip install -r ./user_info/requirements.txt
+          pip install -r ./fconline_data/requirements.txt
 
       - name: Autopep8 testing
         run: |
-          autopep8 ./user_info/*.py
+          autopep8 ./fconline_data/*.py
   
       - name: Send message when autopep8 testing fails
         if: failure()
@@ -32,12 +32,12 @@ jobs:
       - name: Pylint testing
         if: always()
         run: |
-          pylint ./user_info/*.py
+          pylint ./fconline_data/*.py
 
       - name: Send message when pylint testing fails
         if: failure()
         run: |
-          pylint ./user_info/. > pylint_output.txt || true
+          pylint ./fconline_data/. > pylint_output.txt || true
           pylint_output=$(cat pylint_output.txt)
           json='{"content":"'"$pylint_output"'"}'
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Pylint testing failed! Please review and fix the identified issues."}' ${{ secrets.DISCORD_WEBHOOK }}
