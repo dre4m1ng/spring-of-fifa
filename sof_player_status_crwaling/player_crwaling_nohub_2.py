@@ -27,11 +27,6 @@ df_spid = pd.read_csv(csv_file_path)
 name_list_csv = df_spid.values.tolist()
 # 행 개수 조회
 name_list_csv_num = len(name_list_csv)
-# 결과물 출력
-# print(name_list_csv_num)
-
-# 출력 test
-# test_list = name_list_csv[0]
 
 
 df = pd.DataFrame(columns=['Season_Class', 'Name', 'Position', 'Birth', 'Height', 'Weight', 'Physical', 'Skill', 'Foot', 'Season', 'Nation', 'Speed_M', 'Soot_M', 'Pass_M', 'Dribble_M', 'Defance_M', 'Physical_M', 'Sprint_Speed', 'Acceleration', 'Finishing', 'Soot_Power', 'Long_Shots', 'Positioning', 'Volley', 'Penalty_Kick', 'Short_Pass', 'Vision', 'Crossing', 'Long_Pass', 'Free_Kick', 'Curve', 'Dribbling', 'Ball_Control', 'Agility', 'Balance', 'Reaction', 'Defensive_Awareness', 'Tackle', 'Interceptions', 'Heading_Accuracy', 'Sliding_Tackle', 'Standing_Tackle', 'Stamina', 'Aggression', 'Jumping', 'Calmness', 'GK_Diving', 'GK_Handling', 'GK_Kicking', 'GK_Reflexes', 'GK_Positioning'])
@@ -63,12 +58,6 @@ for name in name_list_csv:
                 browser.find_element(By.XPATH, f'//*[@id="divPlayerList"]/div[{i}]/div[1]/div/div[6]/a').click()
                 time.sleep(0.3)
 
-                # 대기
-                # info_wrap_wait = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="playerPreview"]/div/div/div[1]/div[2]')))
-                # WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="playerPreview"]/div/div/div[1]/div[2]/div[1]/div[1]/img')))
-                # WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="playerPreview"]/div/div/div[2]')))
-                # WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="playerPreview"]/div/div/div[3]')))
-                # WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="playerPreview"]/div/div/div[1]/div[2]/div[5]/span')))
 
                 # 요소 찾기
                 info_wrap = browser.find_element(By.XPATH, '//*[@id="playerPreview"]/div/div/div[1]/div[2]')
@@ -88,8 +77,6 @@ for name in name_list_csv:
 
                 # 각 span 요소의 img 속성값을 가져오기
                 for j in range(1, num_skill_wrap + 1):
-                    # img_element_wait = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, f'//*[@id="playerPreview"]/div/div/div[1]/div[2]/div[5]/span[{j}]/img')))
-                    # img_element = img_element_wait.find_element(By.XPATH, f'//*[@id="playerPreview"]/div/div/div[1]/div[2]/div[5]/span[{j}]/img')
                     img_element = browser.find_element(By.XPATH, f'//*[@id="playerPreview"]/div/div/div[1]/div[2]/div[5]/span[{j}]/img')
                     img_alt = img_element.get_attribute('alt')
                     img_alt_list.append(img_alt)
