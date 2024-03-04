@@ -41,7 +41,7 @@ jobs:
           pylint_output=$(cat pylint_output.txt)
           json='{"content":"'"$pylint_output"'"}'
           curl -X POST -H "Content-Type: application/json" -d '{"content":"Pylint testing failed! Please review and fix the identified issues."}' ${{ secrets.DISCORD_WEBHOOK }}
-          echo $json | curl -X POST -H "Content-Type: application/json" -d @- $DISCORD_WEBHOOK
+          echo $json | curl -X POST -H "Content-Type: application/json" -d @- ${{ secrets.DISCORD_WEBHOOK }}
         continue-on-error: true
 
       - name: Send message when All testing success
