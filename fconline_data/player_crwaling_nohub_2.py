@@ -29,8 +29,59 @@ name_list_csv = df_spid.values.tolist()
 name_list_csv_num = len(name_list_csv)
 
 
-df = pd.DataFrame(columns=['Season_Class', 'Name', 'Position', 'Birth', 'Height', 'Weight', 'Physical', 'Skill', 'Foot', 'Season', 'Nation', 'Speed_M', 'Soot_M', 'Pass_M', 'Dribble_M', 'Defance_M', 'Physical_M', 'Sprint_Speed', 'Acceleration', 'Finishing', 'Soot_Power', 'Long_Shots', 'Positioning', 'Volley', 'Penalty_Kick', 'Short_Pass', 'Vision',
-                  'Crossing', 'Long_Pass', 'Free_Kick', 'Curve', 'Dribbling', 'Ball_Control', 'Agility', 'Balance', 'Reaction', 'Defensive_Awareness', 'Tackle', 'Interceptions', 'Heading_Accuracy', 'Sliding_Tackle', 'Standing_Tackle', 'Stamina', 'Aggression', 'Jumping', 'Calmness', 'GK_Diving', 'GK_Handling', 'GK_Kicking', 'GK_Reflexes', 'GK_Positioning'])
+df = pd.DataFrame(
+    columns=[
+        'Season_Class',
+        'Name',
+        'Position',
+        'Birth',
+        'Height',
+        'Weight',
+        'Physical',
+        'Skill',
+        'Foot',
+        'Season',
+        'Nation',
+        'Speed_M',
+        'Soot_M',
+        'Pass_M',
+        'Dribble_M',
+        'Defance_M',
+        'Physical_M',
+        'Sprint_Speed',
+        'Acceleration',
+        'Finishing',
+        'Soot_Power',
+        'Long_Shots',
+        'Positioning',
+        'Volley',
+        'Penalty_Kick',
+        'Short_Pass',
+        'Vision',
+        'Crossing',
+        'Long_Pass',
+        'Free_Kick',
+        'Curve',
+        'Dribbling',
+        'Ball_Control',
+        'Agility',
+        'Balance',
+        'Reaction',
+        'Defensive_Awareness',
+        'Tackle',
+        'Interceptions',
+        'Heading_Accuracy',
+        'Sliding_Tackle',
+        'Standing_Tackle',
+        'Stamina',
+        'Aggression',
+        'Jumping',
+        'Calmness',
+        'GK_Diving',
+        'GK_Handling',
+        'GK_Kicking',
+        'GK_Reflexes',
+        'GK_Positioning'])
 
 failed_names = []  # 실패한 선수 이름을 저장할 리스트
 
@@ -47,8 +98,10 @@ for name in name_list_csv:
     for _ in range(3):
         try:
             # 기다리기
-            tr_wait = WebDriverWait(browser, 10).until(EC.presence_of_element_located(
-                (By.XPATH, '//*[@id="divPlayerList"]/div[@class="tr"]')))
+            tr_wait = WebDriverWait(
+                browser, 10).until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//*[@id="divPlayerList"]/div[@class="tr"]')))
 
             # 검색 결과 수 가져오기
             n = len(browser.find_elements(
@@ -70,7 +123,8 @@ for name in name_list_csv:
                 info_split = info_wrap.text.split('\n')
                 info_split_emp = info_split[2].split(" ")
                 season_class = info_wrap.find_element(
-                    By.XPATH, '//*[@id="playerPreview"]/div/div/div[1]/div[2]/div[1]/div[1]/img').get_attribute('src')
+                    By.XPATH,
+                    '//*[@id="playerPreview"]/div/div/div[1]/div[2]/div[1]/div[1]/img').get_attribute('src')
                 player_stat_1 = browser.find_element(
                     By.XPATH, '//*[@id="playerPreview"]/div/div/div[2]').text.split('\n')
                 player_stat_2 = browser.find_element(
@@ -161,7 +215,7 @@ for name in name_list_csv:
             browser.find_element(By.XPATH, '//*[@id="searchName"]').clear()
 
             break  # 성공 시 반복문 종료
-        except NoSuchElementException as e : 
+        except NoSuchElementException as e:
             # 요소가 나타나지 않으면 1분 대기 후 재시도
             print(f"{e}, 요소가 나타나지 않습니다. 1분 대기 후 재시도합니다.")
             time.sleep(60)
