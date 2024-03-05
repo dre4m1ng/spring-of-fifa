@@ -1,0 +1,36 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: CRA CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.11"
+
+      - name: Install Node Packages
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Build the Application
+        run: npm run build --if-present
+
+      # - name: Install AWS CLI Tool
+      #   uses:
+
+      - name: Upload CRA to S3 Bucket
+        run: aws s3 cp --recursive build s3://dreaming-sof-dev
