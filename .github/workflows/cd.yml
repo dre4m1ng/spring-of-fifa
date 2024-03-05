@@ -34,7 +34,9 @@ jobs:
       #   uses:
 
       - name: Upload CRA to S3 Bucket
-        run: aws s3 cp --recursive build s3://dreaming-sof-dev
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --recursive build s3://dreaming-sof-dev
+          echo "Uploading CRA to S3 Bucket has been completed."
